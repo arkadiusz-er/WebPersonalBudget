@@ -14,6 +14,7 @@
     margin-right: auto;
     overflow: auto;
     margin-top: 25px;
+    min-height: 450px;
 }
 
 header h1 {
@@ -40,12 +41,10 @@ footer {
     float: left;
     text-align: center;
     height: 400px;
-    vertical-align: middle;
-    margin-top: 50px;
 }
 
-.left-content-home h2 {
-    margin-top: 50px;
+.left-content-home .home-h2 {
+    padding-top: 40px;
 }
 
 .right-content-home {
@@ -54,7 +53,6 @@ footer {
     float: left;
     text-align: center;
     height: 400px;
-    margin-top: 50px;
 }
 
 .login-registration {
@@ -175,10 +173,7 @@ footer {
 
 .top-menu li {
     color: #fff;
-    padding-right: 15px;
-    padding-left: 15px;
     display: inline-block;
-    min-height: 35px;
     line-height: 200%;
 }
 
@@ -186,12 +181,25 @@ footer {
     float: right;
 }
 
-.top-menu li:hover {
+.link-html {
+    color: #fff;
+    text-decoration: none;
+    padding-right: 15px;
+    padding-left: 15px;
+    display: inline-block;
+    min-height: 35px;
+}
+
+.top-menu li:hover .link-html {
     cursor: pointer;
     background-color: #393939;
     color: #4fe431;
     font-weight: 900;
 }
-.top-menu li:last-child:hover {
+.top-menu li:last-child:hover .link-html {
     color: #e02929;
+}
+
+.left-content-home img {
+    padding-top: 50px;
 }
