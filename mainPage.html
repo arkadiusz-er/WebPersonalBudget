@@ -5,63 +5,29 @@
     <title>Aplikacja Budżet Osobisty</title>
     <link href="style.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&display=swap" rel="stylesheet">
+    <link href="css/fontello.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="main-container">
-        <header>
-            <h1>Budżet osobisty</h1>
-        </header>
+    <header>
+        <h1>Budżet osobisty</h1>
+    </header>
+    <nav id="top-nav">
+        <ul class="top-menu">
+            <li>Strona główna</li>
+            <li>Dodaj przychód</li>
+            <li>Dodaj wydatek</li>
+            <li>Przeglądaj bilans</li>
+            <li>Ustawienia</li>
+            <li><i class="icon-logout"></i>Wyloguj się</li>
+        </ul>
+    </nav>
+    <main>
         <section class="main-content">
-            <article class="left-content-home">
-                <h2>Aplikacja Budżet Osobisty pozwoli Ci kontrolować wydatki, abyś mógł w lepszy sposób zarządzać swoimi finansami.</h2>
-            </article>
-            <article class="right-content-home">
-                <div class="login-registration">
-                    <ul class="panel-login-registration">
-                        <li id="login-option" class="home-active-option">Logowanie</li>
-                        <li id="registration-option" class="home-noactive-option">Rejestracja</li>
-                    </ul>
-                    <div class="panel-login">
-                        <form method="post" autocomplete="off">
-                            <table class="home-table-panel">
-                                <tr class="home-table-first-row">
-                                    <td class="home-table-first-col"><label for="login" class="home-control-label">Login</label></td>
-                                    <td class="home-table-second-col"><input type="text" class="form-control" name="login" placeholder="Podaj login" /></td>
-                                </tr>
-                                <tr class="home-table-second-row">
-                                    <td class="home-table-first-col"><label for="password" class="home-control-label">Hasło</label></td>
-                                    <td class="home-table-second-col"><input type="password" class="form-control" name="password" placeholder="Podaj hasło" /></td>
-                                </tr>
-                            </table>
-                            <div class="row-panel-home">
-                                <button type="submit">Zaloguj się</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="panel-registration">
-                        <form method="post" autocomplete="off">
-                            <table class="home-table-panel">
-                                <tr class="home-table-first-row">
-                                    <td class="home-table-first-col"><label for="login" class="home-control-label">Login</label></td>
-                                    <td class="home-table-second-col"><input type="text" class="form-control" name="login" placeholder="Podaj login" /></td>
-                                </tr>
-                                <tr class="home-table-second-row">
-                                    <td class="home-table-first-col"><label for="password" class="home-control-label">Hasło</label></td>
-                                    <td class="home-table-second-col"><input type="password" class="form-control" name="password" placeholder="Podaj hasło" /></td>
-                                </tr>
-                            </table>
-                            <div class="row-panel-home">
-                                <button type="submit">Zarejestruj się</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </article>
         </section>
-        <footer>
-            Wszelkie prawa zastrzeżone &copy;
-        </footer>
-    </div>
+    </main>
+    <footer>
+        Wszelkie prawa zastrzeżone &copy;
+    </footer>
     <script src="jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
 
