@@ -185,3 +185,13 @@ footer {
 .top-menu li:last-child {
     float: right;
 }
+
+.top-menu li:hover {
+    cursor: pointer;
+    background-color: #393939;
+    color: #4fe431;
+    font-weight: 900;
+}
+.top-menu li:last-child:hover {
+    color: #e02929;
+}
