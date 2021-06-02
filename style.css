@@ -203,3 +203,14 @@ footer {
 .left-content-home img {
     padding-top: 50px;
 }
+
+.main-content h2 {
+    text-align: center;
+}
+
+.form-expense {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+}
