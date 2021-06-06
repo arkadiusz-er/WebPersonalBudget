@@ -30,5 +30,5 @@ $('#dateID').attr('max', maxDate);
 $('#dateID').val(maxDate);
 
 var heightDivTableResults = parseFloat($('.div-table-results:last-child').css('height'));
-$('.article-results').css('height', heightDivTableResults);
-$('.div-table-results:first-child').css('height', $('.div-table-results:last-child').css('height'));
+$('.div-table-results:first-child').css('height', heightDivTableResults);
+$('.article-results').css('min-height', heightDivTableResults);
