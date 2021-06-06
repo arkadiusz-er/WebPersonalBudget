@@ -23,7 +23,46 @@
     </nav>
     <main>
         <section class="main-content">
-            <p>Dodaj wydatek</p>
+            <h2>Dodawanie wydatku</h2>
+            <form class="form-expense">
+                <div class="div-row"><label for="amount">Kwota</label><input type="number" id="amount" name="amount-expense" class="form-control-white" /></div>
+                <div class="div-row"><label for="date">Data</label><input type="date" id="date" name="date-expense" class="form-control-white" /></div>
+                <div class="div-row">
+                    <fieldset>
+                        <legend>Sposób płatności</legend>
+                        <label class="form-control2"><input type="radio" name="payment-method" value="gotowka" />Gotówka</label>
+                        <label class="form-control2"><input type="radio" name="payment-method" value="karta_debetowa" />Karta debetowa</label>
+                        <label class="form-control2"><input type="radio" name="payment-method" value="karta_kredytowa" />Karta kredytowa</label>
+                    </fieldset>
+                </div>
+                <div class="div-row">
+                    <fieldset>
+                        <legend>Kategoria płatności</legend>
+                        <div><label><input type="radio" name="payment-category" value="darowizna" />Darowizna</label></div>
+                        <div><label><input type="radio" name="payment-category" value="dzieci" />Dzieci</label></div>
+                        <div><label><input type="radio" name="payment-category" value="higiena" />Higiena</label></div>
+                        <div><label><input type="radio" name="payment-category" value="jedzenie" />Jedzenie</label></div>
+                        <div><label><input type="radio" name="payment-category" value="ksiazki" />Książki</label></div>
+                        <div><label><input type="radio" name="payment-category" value="mieszkanie" />Mieszkanie</label></div>
+                        <div><label><input type="radio" name="payment-category" value="opieka_zdrowotna" />Opieka zdrowotna</label></div>
+                        <div><label><input type="radio" name="payment-category" value="rozrywka" />Rozrywka</label></div>
+                        <div><label><input type="radio" name="payment-category" value="splata_dlugow" />Spłata długów</label></div>
+                        <div><label><input type="radio" name="payment-category" value="szkolenie" />Szkolenie</label></div>
+                        <div><label><input type="radio" name="payment-category" value="telekomunikacja" />Telekomunikacja</label></div>
+                        <div><label><input type="radio" name="payment-category" value="transport" />Transport</label></div>
+                        <div><label><input type="radio" name="payment-category" value="ubrania" />Ubrania</label></div>
+                        <div><label><input type="radio" name="payment-category" value="wycieczka" />Wycieczka</label></div>
+                        <div><label><input type="radio" name="payment-category" value="inne_wydatki" />Inne wydatki</label></div>
+                    </fieldset>
+                </div>
+                <div class="div-row">
+                    <label for="comment">Komentarz</label><input type="text" id="comment" name="comment-expense" class="form-control-white" maxlength="20"/>
+                </div>
+                <div class="div-row">
+                    <button type="submit" class="btn-submit">Dodaj</button>
+                    <button type="reset" class="btn-reset">Anuluj</button>
+                </div>
+            </form>
         </section>
     </main>
     <footer>

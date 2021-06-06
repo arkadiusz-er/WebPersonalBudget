@@ -32,7 +32,7 @@ footer {
     background-color: #000000;
     color: #FFFFFF;
     padding: 15px;
-    margin-top: 15px;
+    margin-top: 25px;
 }
 
 .left-content-home {
@@ -202,4 +202,70 @@ footer {
 
 .left-content-home img {
     padding-top: 50px;
+}
+
+.main-content h2 {
+    text-align: center;
+}
+
+.form-expense {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+}
+
+.form-control2 {
+    display: block;
+}
+
+.div-row {
+    margin-top: 20px;
+}
+
+.btn-submit {
+    width: 100px;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #36b03c;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.btn-reset {
+    width: 100px;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #c82a2a;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.btn-submit:hover,
+.btn-reset:hover {
+    opacity: 1;
+}
+
+.div-row label {
+    margin-right: 5px;
+}
+
+.form-control-white {
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #ffffff;
+    color: #666;
+    outline: none;
+}
+
+.form-control-white:focus {
+    -webkit-box-shadow: 0px 0px 10px 2px rgba(204,204,204,0.9);
+    -moz-box-shadow: 0px 0px 10px 2px rgba(204,204,204,0.9);
+    box-shadow: 0px 0px 10px 2px rgba(204,204,204,0.9);
+    border: 2px solid #a5cda5;
+    background-color: #e9f3e9;
+    color: #428c42;
 }
