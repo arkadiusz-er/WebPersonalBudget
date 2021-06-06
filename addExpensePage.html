@@ -25,19 +25,19 @@
         <section class="main-content">
             <h2>Dodawanie wydatku</h2>
             <form class="form-expense">
-                <div><label>Kwota<input type="number" /></label></div>
-                <div><label>Data<input type="date" /></label></div>
-                <div>
-                    <label>
-                        Sposób płatności
-                        <div><label><input type="radio" name="payment-method" value="gotowka" />Gotówka</label></div>
-                        <div><label><input type="radio" name="payment-method" value="karta_debetowa" />Karta debetowa</label></div>
-                        <div><label><input type="radio" name="payment-method" value="karta_kredytowa" />Karta kredytowa</label></div>
-                    </label>
+                <div class="div-row"><label for="amount">Kwota</label><input type="number" id="amount" name="amount-expense"/></div>
+                <div class="div-row"><label for="date">Data</label><input type="date" id="date" name="date-expense"/></div>
+                <div class="div-row">
+                    <fieldset>
+                        <legend>Sposób płatności</legend>
+                        <label class="form-control2"><input type="radio" name="payment-method" value="gotowka" />Gotówka</label>
+                        <label class="form-control2"><input type="radio" name="payment-method" value="karta_debetowa" />Karta debetowa</label>
+                        <label class="form-control2"><input type="radio" name="payment-method" value="karta_kredytowa" />Karta kredytowa</label>
+                    </fieldset>
                 </div>
-                <div>
-                    <label>
-                        Kategoria płatności
+                <div class="div-row">
+                    <fieldset>
+                        <legend>Kategoria płatności</legend>
                         <div><label><input type="radio" name="payment-category" value="darowizna" />Darowizna</label></div>
                         <div><label><input type="radio" name="payment-category" value="dzieci" />Dzieci</label></div>
                         <div><label><input type="radio" name="payment-category" value="higiena" />Higiena</label></div>
@@ -53,10 +53,14 @@
                         <div><label><input type="radio" name="payment-category" value="ubrania" />Ubrania</label></div>
                         <div><label><input type="radio" name="payment-category" value="wycieczka" />Wycieczka</label></div>
                         <div><label><input type="radio" name="payment-category" value="inne_wydatki" />Inne wydatki</label></div>
-                    </label>
+                    </fieldset>
                 </div>
-                <div>
-                    <label>Komentarz<input type="text" maxlength="20"/></label>
+                <div class="div-row">
+                    <label for="comment">Komentarz</label><input type="text" id="comment" name="comment-expense" maxlength="20"/>
+                </div>
+                <div class="div-row">
+                    <button type="submit" class="btn-submit">Dodaj</button>
+                    <button type="reset" class="btn-reset">Anuluj</button>
                 </div>
             </form>
         </section>

@@ -214,3 +214,40 @@ footer {
     margin-right: auto;
     width: 500px;
 }
+
+.form-control2 {
+    display: block;
+}
+
+.div-row {
+    margin-top: 20px;
+}
+
+.btn-submit {
+    width: 100px;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #36b03c;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.btn-reset {
+    width: 100px;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #c82a2a;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.btn-submit:hover,
+.btn-reset:hover {
+    opacity: 1;
+}
+
+.div-row label {
+    margin-right: 5px;
+}
