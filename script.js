@@ -32,3 +32,25 @@ $('#dateID').val(maxDate);
 var heightDivTableResults = parseFloat($('.div-table-results:last-child').css('height'));
 $('.div-table-results:first-child').css('height', heightDivTableResults);
 $('.article-results').css('min-height', heightDivTableResults);
+
+google.charts.load('current', { 'packages': ['corechart'] });
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+
+    var data = google.visualization.arrayToDataTable([
+        ['category', 'amount'],
+        ['Mieszkanie', 1200],
+        ['Jedzenie', 500],
+        ['Ubrania', 200],
+        ['Rozrywka', 300]
+    ]);
+
+    var options = {
+        title: 'Moje wydatki'
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+
+    chart.draw(data, options);
+}

@@ -327,7 +327,6 @@ footer {
 }
 
 .article-results {
-    border: 1px solid black;
     background-color: #efefef;
     padding: 30px;
 }
@@ -351,7 +350,6 @@ footer {
     margin-left: 25%;
     margin-right: 75%;
     clear: both;
-    border: 1px solid black;
     padding: 10px;
 }
 
@@ -365,4 +363,10 @@ footer {
 .div-table-balance .results-table-balance td, th {
     padding: 10px;
     min-width: 100px;
+}
+
+#pie-chart {
+    margin-top: 30px;
+    width: 765px;
+    height: 400px;
 }
