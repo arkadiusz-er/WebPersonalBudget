@@ -8,15 +8,6 @@
     margin: 0;
 }
 
-.main-content {
-    width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: auto;
-    margin-top: 25px;
-    min-height: 450px;
-}
-
 header h1 {
     text-align: center;
     font-size: 42px;
@@ -35,29 +26,8 @@ footer {
     margin-top: 25px;
 }
 
-.left-content-home {
-    width: 450px;
-    padding: 25px;
-    float: left;
-    text-align: center;
-    height: 400px;
-}
-
-.left-content-home .home-h2 {
-    padding-top: 40px;
-}
-
-.right-content-home {
-    width: 450px;
-    padding: 25px;
-    float: left;
-    text-align: center;
-    height: 400px;
-}
-
 .login-registration {
     width: 350px;
-    margin: auto;
     -webkit-box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
     -moz-box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
     box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
@@ -83,7 +53,6 @@ footer {
     margin: 0;
     padding: 10px;
     background-color: #fff;
-    height: 150px;
 }
 
 .panel-registration {
@@ -91,7 +60,6 @@ footer {
     padding: 10px;
     background-color: #fff;
     display: none;
-    height: 150px;
 }
 
 .home-active-option {
@@ -103,27 +71,6 @@ footer {
     cursor: pointer;
 }
 
-.home-table-panel {
-    text-align: center;
-    margin: auto;
-}
-
-.home-table-first-col {
-    width: 50px;
-    padding: 0 5px;
-    height: 40px;
-}
-
-.home-table-second-col {
-    min-width: 190px;
-    padding: 0 5px;
-    height: 40px;
-}
-
-.row-panel-home {
-    margin-top: 15px;
-}
-
 .row-panel-home button {
     width: 125px;
     border-radius: 10px;
@@ -132,6 +79,7 @@ footer {
     color: #fff;
     cursor: pointer;
     opacity: 0.8;
+    margin-top: 12px;
 }
 
 .row-panel-home button:hover {
