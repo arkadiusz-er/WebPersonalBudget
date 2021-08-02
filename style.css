@@ -104,11 +104,11 @@ footer {
 	color: #428c42;
 }
 
-#top-nav {
+.bg-topnav {
     background-color: #4a4a4a;
     text-align: center;
 }
-
+/*
 .top-menu {
     overflow: auto;
     padding: 10px 0;
@@ -147,7 +147,8 @@ footer {
 .top-menu li:last-child:hover .link-html {
     color: #e02929;
 }
-
+*/
+/*
 .left-content-home img {
     padding-top: 50px;
 }
@@ -217,7 +218,7 @@ footer {
     background-color: #e9f3e9;
     color: #428c42;
 }
-
+*/
 /* Dropdown Button */
 .dropbtn {
     background-color: #04AA6D;
