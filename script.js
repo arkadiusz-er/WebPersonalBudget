@@ -33,11 +33,10 @@ var heightDivTableResults = parseFloat($('.div-table-results:last-child').css('h
 $('.div-table-results:first-child').css('height', heightDivTableResults);
 $('.article-results').css('min-height', heightDivTableResults);
 
-google.charts.load('current', { 'packages': ['corechart'] });
-google.charts.setOnLoadCallback(drawChart);
+google.load("visualization", "1", { packages: ["corechart"] });
+google.setOnLoadCallback(drawChart);
 
 function drawChart() {
-
     var data = google.visualization.arrayToDataTable([
         ['category', 'amount'],
         ['Mieszkanie', 1200],
@@ -50,7 +49,18 @@ function drawChart() {
         title: 'Moje wydatki'
     };
 
-    var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
-
+    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
     chart.draw(data, options);
 }
+
+$(window).on("throttledresize", function (event) {
+    var options = {
+        width: '100%',
+        height: '100%'
+    };
+
+    var data = google.visualization.arrayToDataTable([]);
+    drawChart(data, options);
+});
+
+
