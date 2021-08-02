@@ -108,47 +108,7 @@ footer {
     background-color: #4a4a4a;
     text-align: center;
 }
-/*
-.top-menu {
-    overflow: auto;
-    padding: 10px 0;
-    list-style: none;
-    margin: 0;
-    width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-}
 
-.top-menu li {
-    color: #fff;
-    display: inline-block;
-    line-height: 200%;
-}
-
-.top-menu li:last-child {
-    float: right;
-}
-
-.link-html {
-    color: #fff;
-    text-decoration: none;
-    padding-right: 15px;
-    padding-left: 15px;
-    display: inline-block;
-    min-height: 35px;
-}
-
-.top-menu li:hover .link-html {
-    cursor: pointer;
-    background-color: #393939;
-    color: #4fe431;
-    font-weight: 900;
-}
-.top-menu li:last-child:hover .link-html {
-    color: #e02929;
-}
-
-*/
 .btn-submit {
     width: 100px;
     border-radius: 10px;
@@ -174,10 +134,6 @@ footer {
     opacity: 1;
 }
 
-.div-row label {
-    margin-right: 5px;
-}
-
 .form-control-white {
     border: 2px solid #ddd;
     border-radius: 5px;
@@ -197,103 +153,17 @@ footer {
     color: #428c42;
 }
 
-/* Dropdown Button */
-.dropbtn {
-    background-color: #04AA6D;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    min-width: 160px;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
+#chart_wrap {
     position: relative;
-    display: inline-block;
-    float: right;
+    padding-bottom: 60%;
+    height: 0;
+    overflow: hidden;
 }
 
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-    display: none;
+#chart_div {
     position: absolute;
-    background-color: #f1f1f1;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
-}
-
-.results-table-incomes, .results-table-expenses, .results-table-header, .results-table-data, .results-table-data-amount {
-    border: 1px solid black;
-    border-collapse: collapse;
-    text-align: center;
-    padding: 5px;
-}
-
-.article-results {
-    background-color: #efefef;
-    padding: 30px;
-}
-
-.article-results > .div-table-results {
-    float: left;
-    margin-right: 25px;
-    width: 350px;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
-    background-color: #fff;
-    padding: 10px;
-    margin-bottom: 30px;
-}
-
-.results-table-incomes, .results-table-expenses {
-    margin: auto;
-}
-
-.div-table-balance {
-    width: 300px;
-    margin-left: 25%;
-    margin-right: 75%;
-    clear: both;
-    padding: 10px;
-}
-
-.div-table-balance .results-table-balance {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    background-color: #fff;
-}
-
-.div-table-balance .results-table-balance td, th {
-    padding: 10px;
-    min-width: 100px;
-}
-
-#pie-chart {
-    margin-top: 30px;
-    width: 765px;
-    height: 400px;
 }
