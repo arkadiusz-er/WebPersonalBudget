@@ -147,31 +147,8 @@ footer {
 .top-menu li:last-child:hover .link-html {
     color: #e02929;
 }
+
 */
-/*
-.left-content-home img {
-    padding-top: 50px;
-}
-
-.main-content h2 {
-    text-align: center;
-}
-
-.form-expense {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    width: 500px;
-}
-
-.form-control2 {
-    display: block;
-}
-
-.div-row {
-    margin-top: 20px;
-}
-
 .btn-submit {
     width: 100px;
     border-radius: 10px;
@@ -208,6 +185,7 @@ footer {
     background-color: #ffffff;
     color: #666;
     outline: none;
+    margin-left: 7px;
 }
 
 .form-control-white:focus {
@@ -218,7 +196,7 @@ footer {
     background-color: #e9f3e9;
     color: #428c42;
 }
-*/
+
 /* Dropdown Button */
 .dropbtn {
     background-color: #04AA6D;
