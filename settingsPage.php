@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿<?php
+	session_start();
+	
+	if(!isset($_SESSION['logged'])) {
+		header('Location: index.php');
+		exit();
+	}
+?>
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -13,12 +22,12 @@
     </header>
     <nav id="top-nav">
         <ul class="top-menu">
-            <li><a href="mainPage.html" class="link-html">Strona główna</a></li>
-            <li><a href="addIncomePage.html" class="link-html">Dodaj przychód</a></li>
-            <li><a href="addExpensePage.html" class="link-html">Dodaj wydatek</a></li>
-            <li><a href="displayBalancePage.html" class="link-html">Przeglądaj bilans</a></li>
-            <li><a href="settingsPage.html" class="link-html">Ustawienia</a></li>
-            <li><a href="homePage.html" class="link-html"><i class="icon-logout"></i>Wyloguj się</a></li>
+            <li><a href="mainPage.php" class="link-html">Strona główna</a></li>
+            <li><a href="addIncomePage.php" class="link-html">Dodaj przychód</a></li>
+            <li><a href="addExpensePage.php" class="link-html">Dodaj wydatek</a></li>
+            <li><a href="displayBalancePage.php" class="link-html">Przeglądaj bilans</a></li>
+            <li><a href="settingsPage.php" class="link-html">Ustawienia</a></li>
+            <li><a href="logout.php" class="link-html"><i class="icon-logout"></i>Wyloguj się</a></li>
         </ul>
     </nav>
     <main>

@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿<?php
+	session_start();
+	
+	if(!isset($_SESSION['logged'])) {
+		header('Location: index.php');
+		exit();
+	}
+?>
+
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="utf-8" />
@@ -20,12 +29,12 @@
         </button>
         <div class="collapse navbar-collapse" id="mainmenu">
             <ul class="navbar-nav m-auto">
-                <li class="nav-item mx-3"><a class="nav-link" href="mainPage.html">Strona główna</a></li>
-                <li class="nav-item mx-3"><a class="nav-link" href="addIncomePage.html">Dodaj przychód</a></li>
-                <li class="nav-item mx-3"><a class="nav-link active" href="addExpensePage.html">Dodaj wydatek</a></li>
-                <li class="nav-item mx-3"><a class="nav-link" href="displayBalancePage.html">Przeglądaj bilans</a></li>
-                <li class="nav-item mx-3"><a class="nav-link" href="settingsPage.html">Ustawienia</a></li>
-                <li class="nav-item mx-3"><a class="nav-link" href="homePage.html"><i class="icon-logout"></i>Wyloguj się</a></li>
+                <li class="nav-item mx-3"><a class="nav-link" href="mainPage.php">Strona główna</a></li>
+                <li class="nav-item mx-3"><a class="nav-link" href="addIncomePage.php">Dodaj przychód</a></li>
+                <li class="nav-item mx-3"><a class="nav-link active" href="addExpensePage.php">Dodaj wydatek</a></li>
+                <li class="nav-item mx-3"><a class="nav-link" href="displayBalancePage.php">Przeglądaj bilans</a></li>
+                <li class="nav-item mx-3"><a class="nav-link" href="settingsPage.php">Ustawienia</a></li>
+                <li class="nav-item mx-3"><a class="nav-link" href="logout.php"><i class="icon-logout"></i>Wyloguj się</a></li>
             </ul>
         </div>
     </nav>

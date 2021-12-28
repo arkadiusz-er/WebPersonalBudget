@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿<?php
+	session_start();
+	
+	if((isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
+		header('Location: mainpage.php');
+		exit();
+	} 
+?>
+
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="utf-8" />
@@ -26,7 +35,7 @@
                             <li id="registration-option" class="home-noactive-option">Rejestracja</li>
                         </ul>
                         <div class="panel-login h-75">
-                            <form method="post" autocomplete="off">
+                            <form method="post" action="login.php" autocomplete="off">
                                 <table class="text-center m-auto">
                                     <tr>
                                         <td class="w-25 py-2"><label for="login1" class="home-control-label">Login</label></td>
@@ -41,6 +50,11 @@
                                     <button type="submit">Zaloguj się</button>
                                 </div>
                             </form>
+							
+							<?php
+								if(isset($_SESSION['error']))	echo $_SESSION['error'];
+								unset($_SESSION['error']);
+							?>
                         </div>
                         <div class="panel-registration h-75">
                             <form method="post" autocomplete="off">
@@ -49,9 +63,17 @@
                                         <td class="w-25 py-2"><label for="login2" class="home-control-label">Login</label></td>
                                         <td class="w-75 py-2"><input type="text" class="form-control" name="login" id="login2" placeholder="Podaj login" /></td>
                                     </tr>
+									<tr>
+                                        <td class="w-25 py-2"><label for="email2" class="home-control-label">Email</label></td>
+                                        <td class="w-75 py-2"><input type="email" class="form-control" name="email" id="email2" placeholder="Podaj email" /></td>
+                                    </tr>
                                     <tr>
                                         <td class="w-25 py-2"><label for="password2" class="home-control-label">Hasło</label></td>
                                         <td class="w-75 py-2"><input type="password" class="form-control" name="password" id="password2" placeholder="Podaj hasło" /></td>
+                                    </tr>
+									<tr>
+                                        <td class="w-25 py-2"><label for="password3" class="home-control-label"></label></td>
+                                        <td class="w-75 py-2"><input type="password" class="form-control" name="password" id="password3" placeholder="Powtórz hasło" /></td>
                                     </tr>
                                 </table>
                                 <div class="row-panel-home">
