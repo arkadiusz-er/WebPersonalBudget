@@ -1,4 +1,5 @@
-﻿function displayRegistrationPanel() {
+﻿/*
+function displayRegistrationPanel() {
     $('.panel-login').css("display", "none");
     $('.panel-registration').css("display", "block");
     $('#login-option').removeClass("home-active-option");
@@ -18,7 +19,7 @@ function displayLoginPanel() {
 
 $('#login-option').on("click", displayLoginPanel);
 $('#registration-option').on("click", displayRegistrationPanel);
-
+*/
 var today = new Date();
 var day = today.getDate();
 var month = today.getMonth() + 1;

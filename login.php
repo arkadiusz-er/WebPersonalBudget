@@ -16,19 +16,27 @@
 	} else {
 		$login = $_POST['login'];
 		$pass = $_POST['password'];
-		$sql = "SELECT * FROM users WHERE username='$login' AND password='$pass'";
-		if($result = $connection->query($sql)){
+		
+		$login = htmlentities($login,ENT_QUOTES,"UTF-8");
+		
+		if($result = $connection->query(sprintf("SELECT * FROM users WHERE username='%s'",
+		mysqli_real_escape_string($connection,$login)))){
 			$numbersOfUsers = $result->num_rows;
 			if ($numbersOfUsers > 0) {
-				$_SESSION['logged'] = true;
-				
 				$row = $result->fetch_assoc();
-				$_SESSION['logged_id'] = $row['id'];
-				$_SESSION['logged_username'] = $row['username'];
 				
-				unset($_SESSION['error']);
-				$result->free_result();
-				header('Location: mainpage.php');
+				if(password_verify($pass, $row['password'])) {
+					$_SESSION['logged'] = true;
+				
+					$_SESSION['logged_id'] = $row['id'];
+					$_SESSION['logged_username'] = $row['username'];
+					unset($_SESSION['error']);
+					$result->free_result();
+					header('Location: mainpage.php');
+				} else {
+				$_SESSION['error'] = '<span style="color:red">Login or password is incorrect!</span>';
+				header('Location: index.php');
+				}	
 			} else {
 				$_SESSION['error'] = '<span style="color:red">Login or password is incorrect!</span>';
 				header('Location: index.php');

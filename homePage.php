@@ -1,7 +1,7 @@
 ﻿<?php
 	session_start();
 	
-	if((isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
+	if((isset($_SESSION['logged'])) && ($_SESSION['logged'] = true)) {
 		header('Location: mainpage.php');
 		exit();
 	} 
@@ -32,7 +32,7 @@
                     <div class="login-registration m-auto">
                         <ul class="panel-login-registration">
                             <li id="login-option" class="home-active-option">Logowanie</li>
-                            <li id="registration-option" class="home-noactive-option">Rejestracja</li>
+                            <a href="registration.php"><li id="registration-option" class="home-noactive-option">Rejestracja</li></a>
                         </ul>
                         <div class="panel-login h-75">
                             <form method="post" action="login.php" autocomplete="off">
@@ -55,7 +55,7 @@
 								if(isset($_SESSION['error']))	echo $_SESSION['error'];
 								unset($_SESSION['error']);
 							?>
-                        </div>
+                        </div> <!--
                         <div class="panel-registration h-75">
                             <form method="post" autocomplete="off">
                                 <table class="text-center m-auto">
@@ -80,7 +80,7 @@
                                     <button type="submit">Zarejestruj się</button>
                                 </div>
                             </form>
-                        </div>
+                        </div> -->
                     </div>
                 </section>
             </div>

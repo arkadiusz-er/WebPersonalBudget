@@ -40,6 +40,24 @@
     </nav>
     <main>
         <div class="container">
+			<?php
+				if(isset($_SESSION['registred_user'])) {
+					echo '<div class="row"><p class="text-center pt-1">Konto zostało utworzone! Teraz możesz korzystać z aplikacji ☺</p></div>';
+					unset($_SESSION['registred_user']);
+					
+					//Usuwanie zmiennych pamiętających wartości wpisane do formularza
+					if (isset($_SESSION['fr_login'])) unset($_SESSION['fr_login']);
+					if (isset($_SESSION['fr_email'])) unset($_SESSION['fr_email']);
+					if (isset($_SESSION['fr_pass1'])) unset($_SESSION['fr_pass1']);
+					if (isset($_SESSION['fr_pass2'])) unset($_SESSION['fr_pass2']);
+					
+					//Usuwanie błędów rejestracji
+					if (isset($_SESSION['err_login'])) unset($_SESSION['err_login']);
+					if (isset($_SESSION['err_email'])) unset($_SESSION['err_email']);
+					if (isset($_SESSION['err_pass1'])) unset($_SESSION['err_pass1']);
+					if (isset($_SESSION['err_pass2'])) unset($_SESSION['err_pass2']);
+				}
+			?>
             <div class="row">
                 <article class="col-md-6 pt-2 text-center">
                     <img src="img/personal-budget.jpg" alt="personal-budget" class="img-fluid" />
