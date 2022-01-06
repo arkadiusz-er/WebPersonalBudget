@@ -91,6 +91,12 @@
 				if($correct_data == true) {
 					
 					if($connection->query("INSERT INTO users VALUES (NULL, '$login', '$pass_hash', '$email')")) {
+						$connection->query("INSERT INTO expenses_category_assigned_to_users (user_id, name)
+							SELECT u.id, ecd.name FROM users u CROSS JOIN expenses_category_default ecd WHERE u.username='$login'");
+						$connection->query("INSERT INTO incomes_category_assigned_to_users (user_id, name)
+							SELECT u.id, icd.name FROM users u CROSS JOIN incomes_category_default icd WHERE u.username='$login'");
+						$connection->query("INSERT INTO payment_methods_assigned_to_users (user_id, name)
+							SELECT u.id, pmd.name FROM users u CROSS JOIN payment_methods_default pmd WHERE u.username='$login'");
 						$_SESSION['registred_user'] = true;
 						$_SESSION['logged'] = true;
 						header('Location: mainpage.php');

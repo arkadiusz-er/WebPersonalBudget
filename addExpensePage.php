@@ -5,6 +5,50 @@
 		header('Location: index.php');
 		exit();
 	}
+	
+	if(isset($_POST['amount-expense'])) {
+		
+		//Pobranie wartości
+		$login = $_SESSION['logged_username'];
+		$user_id = $_SESSION['logged_id'];
+		$payment_method = $_POST['payment-method'];
+		$expense_category = $_POST['expense-category'];
+		$amount = $_POST['amount-expense'];
+		$date = $_POST['date-expense'];
+		$expense_comm = $_POST['comment-expense'];
+		
+		require_once "connect.php";
+		mysqli_report(MYSQLI_REPORT_STRICT);
+		
+		try {
+			$connection = new mysqli($host, $db_user, $db_password, $db_name);
+			if($connection->connect_errno!=0) {
+				throw new Exception (mysqli_connect_errno());
+			} else {
+				
+				//Sprawdzenie, czy do usera są przypisane jakieś kategorie
+				$expenses_names = $connection->query("SELECT name FROM expenses_category_assigned_to_users WHERE user_id='$user_id'");
+				$numbers_expenses_names = $expenses_names->num_rows;
+				if($numbers_expenses_names>0) {
+					$expense_id = $connection->query("SELECT id FROM expenses_category_assigned_to_users WHERE user_id='$user_id' AND UPPER(name)=UPPER('$expense_category')");
+					$payment_method_id = $connection->query("SELECT id FROM payment_methods_assigned_to_users WHERE user_id='$user_id' AND UPPER(name)=UPPER('$payment_method')");
+					$row_expense_id = $expense_id->fetch_assoc();
+					$row_payment_method_id = $payment_method_id->fetch_assoc();
+					$expense_id = $row_expense_id['id'];
+					$payment_method_id = $row_payment_method_id['id'];
+					$connection->query("INSERT INTO expenses VALUES (NULL,'$user_id','$expense_id','$payment_method_id','$amount','$date','$expense_comm')");
+				} else {
+					echo "Brak kategorii wydatków.";
+				}
+				
+				$connection->close();
+			}
+		} catch (Exception $err) {
+			echo '<span style="color:red;">Błąd serwera! Przepraszamy za niedogodności i prosimy o rejestrację w innym terminie!</span>';
+		}
+	}
+	
+	
 ?>
 
 <!DOCTYPE html>
@@ -43,35 +87,35 @@
             <div class="row">
                 <section class="col-md-6 offset-md-3 mx-md-auto text-center mt-4 formularz">
                     <h2>Dodawanie wydatku</h2>
-                    <form>
+                    <form method="post" autocomplete="off">
                         <div class="my-md-2"><label for="amount">Kwota</label><input type="number" id="amount" name="amount-expense" class="form-control-white" /></div>
                         <div class="my-md-2"><label for="dateID">Data</label><input type="date" id="dateID" name="date-expense" class="form-control-white" /></div>
                         <div class="my-md-2">
                             <fieldset>
                                 <legend>Sposób płatności</legend>
-                                <label class="d-md-block"><input type="radio" name="payment-method" value="gotowka" />Gotówka</label>
-                                <label class="d-md-block"><input type="radio" name="payment-method" value="karta_debetowa" />Karta debetowa</label>
-                                <label class="d-md-block"><input type="radio" name="payment-method" value="karta_kredytowa" />Karta kredytowa</label>
+                                <label class="d-md-block"><input type="radio" name="payment-method" value="cash" />Gotówka</label>
+                                <label class="d-md-block"><input type="radio" name="payment-method" value="debit card" />Karta debetowa</label>
+                                <label class="d-md-block"><input type="radio" name="payment-method" value="credit card" />Karta kredytowa</label>
                             </fieldset>
                         </div>
                         <div class="my-md-2">
                             <fieldset>
                                 <legend>Kategoria płatności</legend>
-                                <div><label><input type="radio" name="payment-category" value="darowizna" />Darowizna</label></div>
-                                <div><label><input type="radio" name="payment-category" value="dzieci" />Dzieci</label></div>
-                                <div><label><input type="radio" name="payment-category" value="higiena" />Higiena</label></div>
-                                <div><label><input type="radio" name="payment-category" value="jedzenie" />Jedzenie</label></div>
-                                <div><label><input type="radio" name="payment-category" value="ksiazki" />Książki</label></div>
-                                <div><label><input type="radio" name="payment-category" value="mieszkanie" />Mieszkanie</label></div>
-                                <div><label><input type="radio" name="payment-category" value="opieka_zdrowotna" />Opieka zdrowotna</label></div>
-                                <div><label><input type="radio" name="payment-category" value="rozrywka" />Rozrywka</label></div>
-                                <div><label><input type="radio" name="payment-category" value="splata_dlugow" />Spłata długów</label></div>
-                                <div><label><input type="radio" name="payment-category" value="szkolenie" />Szkolenie</label></div>
-                                <div><label><input type="radio" name="payment-category" value="telekomunikacja" />Telekomunikacja</label></div>
-                                <div><label><input type="radio" name="payment-category" value="transport" />Transport</label></div>
-                                <div><label><input type="radio" name="payment-category" value="ubrania" />Ubrania</label></div>
-                                <div><label><input type="radio" name="payment-category" value="wycieczka" />Wycieczka</label></div>
-                                <div><label><input type="radio" name="payment-category" value="inne_wydatki" />Inne wydatki</label></div>
+                                <div><label><input type="radio" name="expense-category" value="gift" />Darowizna</label></div>
+                                <div><label><input type="radio" name="expense-category" value="kids" />Dzieci</label></div>
+                                <div><label><input type="radio" name="expense-category" value="hygiene" />Higiena</label></div>
+                                <div><label><input type="radio" name="expense-category" value="food" />Jedzenie</label></div>
+                                <div><label><input type="radio" name="expense-category" value="books" />Książki</label></div>
+                                <div><label><input type="radio" name="expense-category" value="apartments" />Mieszkanie</label></div>
+                                <div><label><input type="radio" name="expense-category" value="health" />Opieka zdrowotna</label></div>
+                                <div><label><input type="radio" name="expense-category" value="recreation" />Rozrywka</label></div>
+                                <div><label><input type="radio" name="expense-category" value="debt repayment" />Spłata długów</label></div>
+                                <div><label><input type="radio" name="expense-category" value="telecommunication" />Telekomunikacja</label></div>
+                                <div><label><input type="radio" name="expense-category" value="transport" />Transport</label></div>
+                                <div><label><input type="radio" name="expense-category" value="clothes" />Ubrania</label></div>
+                                <div><label><input type="radio" name="expense-category" value="for retirement" />Na emeryturę</label></div>
+                                <div><label><input type="radio" name="expense-category" value="trip" />Wycieczka</label></div>
+                                <div><label><input type="radio" name="expense-category" value="another" />Inne wydatki</label></div>
                             </fieldset>
                         </div>
                         <div class="my-md-2">
