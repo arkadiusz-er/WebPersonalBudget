@@ -44,7 +44,7 @@
 				$connection->close();
 			}
 		} catch (Exception $err) {
-			echo '<span style="color:red;">Błąd serwera! Przepraszamy za niedogodności i prosimy o rejestrację w innym terminie!</span>';
+			echo '<span style="color:red;">Błąd serwera! Przepraszamy za niedogodności i prosimy o dodanie wydatku w innym terminie!</span>';
 		}
 	}
 	

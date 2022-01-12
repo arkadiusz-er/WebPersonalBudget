@@ -20,6 +20,7 @@ function displayLoginPanel() {
 $('#login-option').on("click", displayLoginPanel);
 $('#registration-option').on("click", displayRegistrationPanel);
 */
+
 var today = new Date();
 var day = today.getDate();
 var month = today.getMonth() + 1;
@@ -28,15 +29,19 @@ if (month < 10) month = "0" + month;
 if (day < 10) day = "0" + day;
 var maxDate = year + '-' + month + '-' + day;
 $('#dateID').attr('max', maxDate);
+$('#dateID2').attr('max', maxDate);
+$('#dateID3').attr('max', maxDate);
 $('#dateID').val(maxDate);
+
 
 var heightDivTableResults = parseFloat($('.div-table-results:last-child').css('height'));
 $('.div-table-results:first-child').css('height', heightDivTableResults);
 $('.article-results').css('min-height', heightDivTableResults);
-
+/*
 google.load("visualization", "1", { packages: ["corechart"] });
 google.setOnLoadCallback(drawChart);
-
+*/
+/*
 function drawChart() {
     var data = google.visualization.arrayToDataTable([
         ['category', 'amount'],
@@ -63,5 +68,5 @@ $(window).on("throttledresize", function (event) {
     var data = google.visualization.arrayToDataTable([]);
     drawChart(data, options);
 });
-
+*/
 

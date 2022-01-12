@@ -5,6 +5,23 @@
 		header('Location: mainpage.php');
 		exit();
 	} 
+	
+	if(isset($_SESSION['registred_user'])) {
+		echo '<script type="text/javascript">alert("Konto zostało utworzone! Możesz się zalogować ☺")</script>';
+		unset($_SESSION['registred_user']);
+		
+		//Usuwanie zmiennych pamiętających wartości wpisane do formularza
+		if (isset($_SESSION['fr_login'])) unset($_SESSION['fr_login']);
+		if (isset($_SESSION['fr_email'])) unset($_SESSION['fr_email']);
+		if (isset($_SESSION['fr_pass1'])) unset($_SESSION['fr_pass1']);
+		if (isset($_SESSION['fr_pass2'])) unset($_SESSION['fr_pass2']);
+		
+		//Usuwanie błędów rejestracji
+		if (isset($_SESSION['err_login'])) unset($_SESSION['err_login']);
+		if (isset($_SESSION['err_email'])) unset($_SESSION['err_email']);
+		if (isset($_SESSION['err_pass1'])) unset($_SESSION['err_pass1']);
+		if (isset($_SESSION['err_pass2'])) unset($_SESSION['err_pass2']);
+	}
 ?>
 
 <!DOCTYPE html>

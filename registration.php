@@ -98,8 +98,7 @@
 						$connection->query("INSERT INTO payment_methods_assigned_to_users (user_id, name)
 							SELECT u.id, pmd.name FROM users u CROSS JOIN payment_methods_default pmd WHERE u.username='$login'");
 						$_SESSION['registred_user'] = true;
-						$_SESSION['logged'] = true;
-						header('Location: mainpage.php');
+						header('Location: homepage.php');
 					} else {
 						throw new Exception($connection->error);
 					}
