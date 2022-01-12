@@ -31,7 +31,7 @@ var maxDate = year + '-' + month + '-' + day;
 $('#dateID').attr('max', maxDate);
 $('#dateID2').attr('max', maxDate);
 $('#dateID3').attr('max', maxDate);
-$('#dateID').val(maxDate);
+//$('#dateID').val(maxDate);
 
 
 var heightDivTableResults = parseFloat($('.div-table-results:last-child').css('height'));

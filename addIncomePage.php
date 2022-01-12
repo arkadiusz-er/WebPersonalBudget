@@ -6,44 +6,69 @@
 		exit();
 	}
 	
-	if(isset($_POST['amount-income'])) {
+	if(isset($_POST['submit'])) {
 		
+		$correct_data = true;
+ 
 		//Pobranie wartości
 		$login = $_SESSION['logged_username'];
 		$user_id = $_SESSION['logged_id'];
-		$income_category = $_POST['income-category'];
+			
 		$amount = $_POST['amount-income'];
 		$date = $_POST['date-income'];
+		
 		$income_comm = $_POST['comment-income'];
+			
+		if(!$amount) {
+			$correct_data = false;
+			$_SESSION['err_inc_amount'] = "Nie wpisano kwoty!";
+		}
+	
+		if(!$date) {
+			$correct_data = false;
+			$_SESSION['err_inc_date'] = "Nie wybrano daty!";
+		}
+		
+		if(!isset($_POST['income-category'])) {
+			$correct_data = false;
+			$_SESSION['err_inc_cat'] = "Nie wybrano kategorii przychodu!";
+		} else {
+			$income_category = $_POST['income-category'];
+			$_SESSION['fp_inc_cat'] = $income_category;
+		}
+		
+		$_SESSION['fp_amount'] = $amount;
+		$_SESSION['fp_date'] = $date;
 		
 		require_once "connect.php";
 		mysqli_report(MYSQLI_REPORT_STRICT);
 		
-		try {
-			$connection = new mysqli($host, $db_user, $db_password, $db_name);
-			if($connection->connect_errno!=0) {
-				throw new Exception (mysqli_connect_errno());
-			} else {
-				//Sprawdzenie, czy do usera są przypisane jakieś kategorie
-				$income_names = $connection->query("SELECT name FROM incomes_category_assigned_to_users WHERE user_id='$user_id'");
-				$numbers_income_names = $income_names->num_rows;
-				if($numbers_income_names>0) {
-					$income_id = $connection->query("SELECT id FROM incomes_category_assigned_to_users WHERE user_id='$user_id' AND UPPER(name)=UPPER('$income_category')");
-					$row = $income_id->fetch_assoc();
-					$income_id = $row['id'];
-					$connection->query("INSERT INTO incomes VALUES (NULL,'$user_id','$income_id','$amount','$date','$income_comm')");
+		if ($correct_data == true) {
+			try {
+				$connection = new mysqli($host, $db_user, $db_password, $db_name);
+				if($connection->connect_errno!=0) {
+					throw new Exception (mysqli_connect_errno());
 				} else {
-					echo "Brak kategorii przychodów.";
+					//Sprawdzenie, czy do usera są przypisane jakieś kategorie
+					$income_names = $connection->query("SELECT name FROM incomes_category_assigned_to_users WHERE user_id='$user_id'");
+					$numbers_income_names = $income_names->num_rows;
+					if($numbers_income_names>0) {
+						$income_id = $connection->query("SELECT id FROM incomes_category_assigned_to_users WHERE user_id='$user_id' AND UPPER(name)=UPPER('$income_category')");
+						$row = $income_id->fetch_assoc();
+						$income_id = $row['id'];
+						$connection->query("INSERT INTO incomes VALUES (NULL,'$user_id','$income_id','$amount','$date','$income_comm')");
+					} else {
+						echo "Brak kategorii przychodów.";
+					}
+					
+					$connection->close();
 				}
-				
-				$connection->close();
+			} catch (Exception $err) {
+				echo '<span style="color:red;">Błąd serwera! Przepraszamy za niedogodności i prosimy o dodanie przychodu w innym terminie!</span>';
 			}
-		} catch (Exception $err) {
-			echo '<span style="color:red;">Błąd serwera! Przepraszamy za niedogodności i prosimy o dodanie przychodu w innym terminie!</span>';
-		}
+		}	
 	}
-	
-	
+
 ?>
 
 <!DOCTYPE html>
@@ -83,22 +108,70 @@
                 <section class="col-md-6 offset-md-3 mx-md-auto text-center mt-4 formularz">
                     <h2>Dodawanie przychodu</h2>
                     <form method="post" autocomplete="off">
-                        <div class="my-md-2"><label for="amount">Kwota</label><input type="number" step="0.01" id="amount" name="amount-income" class="form-control-white" /></div>
-                        <div class="my-md-2"><label for="dateID">Data</label><input type="date" id="dateID" name="date-income" class="form-control-white" /></div>
+                        <div class="my-md-2"><label for="amount">Kwota</label><input type="number" step="0.01" id="amount" name="amount-income" class="form-control-white" value="<?php
+							if(isset($_SESSION['fp_amount'])) {
+								echo $_SESSION['fp_amount'];
+								unset($_SESSION['fp_amount']);
+							}
+						?>"/></div>
+						<?php 
+								if(isset($_SESSION['err_inc_amount'])) {
+									echo '<div class="text-danger">'.$_SESSION['err_inc_amount'].'</div>';
+									unset($_SESSION['err_inc_amount']);
+								}
+						?>
+                        <div class="my-md-2"><label for="dateID">Data</label><input type="date" id="dateID" name="date-income" class="form-control-white" value="<?php
+							if(isset($_SESSION['fp_date'])) {
+								echo $_SESSION['fp_date'];
+								unset($_SESSION['fp_date']);
+							}
+						?>"/></div>
+						<?php 
+								if(isset($_SESSION['err_inc_date'])) {
+									echo '<div class="text-danger">'.$_SESSION['err_inc_date'].'</div>';
+									unset($_SESSION['err_inc_date']);
+								}
+						?>
                         <div class="my-md-2">
                             <fieldset>
                                 <legend>Kategoria przychodu</legend>
-                                <div><label><input type="radio" name="income-category" value="Interest" />Odsetki bankowe</label></div>
-                                <div><label><input type="radio" name="income-category" value="Allegro" />Sprzedaż na allegro / olx </label></div>
-                                <div><label><input type="radio" name="income-category" value="Salary" />Wynagrodzenie</label></div>
-                                <div><label><input type="radio" name="income-category" value="Another" />Inne</label></div>
+                                <div><label><input type="radio" name="income-category" value="Interest" <?php
+									if ((isset($_SESSION['fp_inc_cat'])) AND ($_SESSION['fp_inc_cat'] == 'Interest')) {
+										echo "checked";
+										unset($_SESSION['fp_inc_cat']);
+									}
+								?>/>Odsetki bankowe</label></div>
+                                <div><label><input type="radio" name="income-category" value="Allegro" <?php
+									if ((isset($_SESSION['fp_inc_cat'])) AND ($_SESSION['fp_inc_cat'] == 'Allegro')) {
+										echo "checked";
+										unset($_SESSION['fp_inc_cat']);
+									}
+								?>/>Sprzedaż na allegro / olx </label></div>
+                                <div><label><input type="radio" name="income-category" value="Salary" <?php
+									if ((isset($_SESSION['fp_inc_cat'])) AND ($_SESSION['fp_inc_cat'] == 'Salary')) {
+										echo "checked";
+										unset($_SESSION['fp_inc_cat']);
+									}
+								?>/>Wynagrodzenie</label></div>
+                                <div><label><input type="radio" name="income-category" value="Another" <?php
+									if ((isset($_SESSION['fp_inc_cat'])) AND ($_SESSION['fp_inc_cat'] == 'Another')) {
+										echo "checked";
+										unset($_SESSION['fp_inc_cat']);
+									}
+								?>/>Inne</label></div>
                             </fieldset>
+							<?php 
+								if(isset($_SESSION['err_inc_cat'])) {
+									echo '<div class="text-danger">'.$_SESSION['err_inc_cat'].'</div>';
+									unset($_SESSION['err_inc_cat']);
+								}
+							?>
                         </div>
                         <div class="my-md-2">
                             <label for="comment">Komentarz</label><input type="text" id="comment" name="comment-income" class="form-control-white" maxlength="20" />
                         </div>
                         <div class="my-md-2">
-                            <button type="submit" class="btn-submit">Dodaj</button>
+                            <button type="submit" class="btn-submit" name="submit">Dodaj</button>
                             <button type="reset" class="btn-reset">Anuluj</button>
                         </div>
                     </form>

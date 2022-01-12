@@ -45,7 +45,7 @@
 		$pass_hash = password_hash($pass1, PASSWORD_DEFAULT);
 		
 		//Weryfikacja recaptcha
-		$secret_key = "6LcXStgdAAAAANa2ijO6-ph1CaZ1oJ6169tlyX4z";
+		$secret_key = "";
 		$check_recaptcha = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret_key.'&response='.$_POST['g-recaptcha-response']);
 		$reply_recaptcha = json_decode($check_recaptcha);
 		
