@@ -21,6 +21,8 @@
 			unset($_SESSION['incomes']);
 			unset($_SESSION['expenses']);
 			unset($_SESSION['balance']);
+			unset($_SESSION['incomesStatement']);
+			unset($_SESSION['expensesStatement']);
 			
 			$now = date("Y-m-d");
 			$dateStart = "";
@@ -58,7 +60,7 @@
 			}
 		
 			if(($dateStart) && ($dateEnd) && ($dateStart<=$dateEnd)) {
-				$_SESSION['bilansInfo'] = '<h2 class="h3 mt-3">Bilans za okres '.$dateStart.' - '.$dateEnd.'</h2>
+				$_SESSION['bilansInfo'] = '<h2 class="h3 mt-3"><b>Bilans za okres '.$dateStart.' - '.$dateEnd.'</b></h2>
 					<article class="p-1">';
 			
 				//Sprawdzenie, czy user ma jakieś przychody
@@ -68,10 +70,11 @@
 				WHERE u.id=$user_id AND i.date_of_income >= '$dateStart' AND i.date_of_income <= '$dateEnd'
 				GROUP by ica.id ORDER BY SUM(i.amount) DESC");
 				
-				$numbers_incomes = $incomes->num_rows;
+				$numberOfIncomes = $incomes->num_rows;
 
-				if($numbers_incomes>0) {
-					$incomes_string = '
+				if($numberOfIncomes>0) {
+					//zmienna do danych do ogólnej tabeli przychodów
+					$stringIncomesGeneralTable = '
 						<div class="d-inline-block mb-1 m-auto">
 							<h3 class="h6">Przychody za '.$dateStart.' - '.$dateEnd.'</h3>
 							<table class="m-auto bg-white table table-bordered border-dark">
@@ -82,7 +85,7 @@
 					';
 					
 					while ($row_incomes = $incomes->fetch_assoc()) {
-						$incomes_string .= '
+						$stringIncomesGeneralTable .= '
 							<tr>
 								<td>'.$row_incomes['name'].'</td>
 								<td>'.$row_incomes['SUM(i.amount)'].'</td>
@@ -90,8 +93,51 @@
 						';
 					}
 					
-					$incomes_string .= '</table>
+					$stringIncomesGeneralTable .= '</table>
 								</div>';
+								
+					//zmienna do danych do zestawienia przychodów w tabeli
+					$stringIncomeStatementTable = '
+						<div class="mb-5 m-auto">
+							<h3 class="h6">Zestawienie przychodów za '.$dateStart.' - '.$dateEnd.'</h3>
+							<table class="m-auto bg-white table table-bordered border-dark">
+								<tr class="bg-success">
+									<th>Lp</th>
+									<th>Kwota [zł]</th>
+									<th>Data</th>
+									<th>Kategoria</th>
+									<th>Komentarz</th>
+									<th>Edytuj</th>
+									<th>Usuń</th>
+								</tr>
+					';
+					
+					$incomesStatement = $connection->query("SELECT i.amount, i.date_of_income, ica.name, i.income_comment FROM users u 
+					INNER JOIN incomes i ON u.id=i.user_id 
+					INNER JOIN incomes_category_assigned_to_users ica ON i.income_category_assigned_to_user_id = ica.id
+					WHERE u.id=$user_id AND i.date_of_income >= '$dateStart' AND i.date_of_income <= '$dateEnd'");
+					
+					$numberOfIncomesStatement = $incomesStatement->num_rows;
+					$incomesOrdinalNumber = 0;
+					
+					while ($row_incomesStatement = $incomesStatement->fetch_assoc()) {
+						$stringIncomeStatementTable .= '
+							<tr>
+								<td>'.++$incomesOrdinalNumber.'</td>
+								<td>'.$row_incomesStatement['amount'].'</td>
+								<td>'.$row_incomesStatement['date_of_income'].'</td>
+								<td>'.$row_incomesStatement['name'].'</td>
+								<td>'.$row_incomesStatement['income_comment'].'</td>
+								<td> Edytuj </td>
+								<td> Usuń </td>
+							</tr>
+						';
+					}
+
+					$stringIncomeStatementTable .= '</table>
+								</div>';
+								
+					$_SESSION['incomesStatement'] = $stringIncomeStatementTable;
 								
 					//Suma przychodów
 					$incomes_sum = $connection->query("SELECT SUM(i.amount) FROM users u 
@@ -103,15 +149,16 @@
 					$_SESSION['sum_incomes'] = $incomes_sum['SUM(i.amount)'];
 					
 				} else {
-					$incomes_string = '
+					$stringIncomesGeneralTable = '
 						<div class="d-inline-block p-3 mb-1 m-auto">
-							<h3 class="h6">Przychody za '.$dateStart.' - '.$dateEnd.'</h3>
+							<h3 class="h6"><b>Przychody za '.$dateStart.' - '.$dateEnd.'</h3>
 							<b>Brak przychodów</b>
 						</div>';
 						$_SESSION['sum_incomes'] = 0;
 				}
 				
-				$_SESSION['incomes'] = $incomes_string;
+				$_SESSION['incomes'] = $stringIncomesGeneralTable;
+				
 				
 				//Sprawdzenie, czy user ma jakieś wydatki
 				$expenses= $connection->query("SELECT eca.name, SUM(e.amount) FROM users u 
@@ -120,10 +167,10 @@
 				WHERE u.id=$user_id AND e.date_of_expense >= '$dateStart' AND e.date_of_expense <= '$dateEnd'
 				GROUP by eca.id ORDER BY SUM(e.amount) DESC");
 				
-				$numbers_expenses = $expenses->num_rows;
+				$numberOfExpenses = $expenses->num_rows;
 				
-				if($numbers_expenses>0) {
-					$expenses_string = '
+				if($numberOfExpenses>0) {
+					$stringExpensesGeneralTable = '
 						<div class="d-inline-block p-3 mb-1 m-auto">
 							<h3 class="h6">Wydatki za '.$dateStart.' - '.$dateEnd.'</h3>
 							<table class="m-auto bg-white table table-bordered border-dark">
@@ -135,7 +182,7 @@
 					
 					$_SESSION['expenses_vis_string'] = "";
 					while ($row_expenses = $expenses->fetch_assoc()) {
-						$expenses_string .= '
+						$stringExpensesGeneralTable .= '
 							<tr>
 								<td>'.$row_expenses['name'].'</td>
 								<td>'.$row_expenses['SUM(e.amount)'].'</td>
@@ -144,9 +191,52 @@
 						$_SESSION['expenses_vis_string'] .= "['".$row_expenses['name']."', ".$row_expenses['SUM(e.amount)']."],";
 					}
 					
-					$expenses_string .= '</table>
+					$stringExpensesGeneralTable .= '</table>
 								</div>';
-								
+					
+					//zmienna do danych do zestawienia wydatków w tabeli
+					$stringExpenseStatementTable = '
+						<div class="mb-2 m-auto">
+							<h3 class="h6">Zestawienie wydatków za '.$dateStart.' - '.$dateEnd.'</h3>
+							<table class="m-auto bg-white table table-bordered border-dark">
+								<tr class="bg-danger">
+									<th>Lp</th>
+									<th>Kwota [zł]</th>
+									<th>Data</th>
+									<th>Kategoria</th>
+									<th>Komentarz</th>
+									<th>Edytuj</th>
+									<th>Usuń</th>
+								</tr>
+					';
+					
+					$expenseStatement = $connection->query("SELECT e.amount, e.date_of_expense, eca.name, e.expense_comment FROM users u 
+					INNER JOIN expenses e ON u.id=e.user_id 
+					INNER JOIN expenses_category_assigned_to_users eca ON e.expense_category_assigned_to_user_id = eca.id
+					WHERE u.id=$user_id AND e.date_of_expense >= '$dateStart' AND e.date_of_expense <= '$dateEnd'");
+					
+					$numberOfExpensesStatement = $expenseStatement->num_rows;
+					$expensesOrdinalNumber = 0;
+					
+					while ($row_expenseStatement = $expenseStatement->fetch_assoc()) {
+						$stringExpenseStatementTable .= '
+							<tr>
+								<td>'.++$expensesOrdinalNumber.'</td>
+								<td>'.$row_expenseStatement['amount'].'</td>
+								<td>'.$row_expenseStatement['date_of_expense'].'</td>
+								<td>'.$row_expenseStatement['name'].'</td>
+								<td>'.$row_expenseStatement['expense_comment'].'</td>
+								<td> Edytuj </td>
+								<td> Usuń </td>
+							</tr>
+						';
+					}
+
+					$stringExpenseStatementTable .= '</table>
+								</div>';
+					
+					$_SESSION['expensesStatement'] = $stringExpenseStatementTable;
+					
 					//Suma wydatków
 					$expenses_sum = $connection->query("SELECT SUM(e.amount) FROM users u 
 					INNER JOIN expenses e ON u.id=e.user_id 
@@ -157,7 +247,7 @@
 					$_SESSION['sum_expenses'] = $expenses_sum['SUM(e.amount)'];
 					
 				} else {
-					$expenses_string = '
+					$stringExpensesGeneralTable = '
 						<div class="d-inline-block p-3 mb-1 m-auto">
 							<h3 class="h6">Wydatki za '.$dateStart.' - '.$dateEnd.'</h3>
 							<b>Brak wydatków</b>
@@ -165,7 +255,7 @@
 					$_SESSION['sum_expenses'] = 0;
 				}
 				
-				$_SESSION['expenses'] = $expenses_string;
+				$_SESSION['expenses'] = $stringExpensesGeneralTable;
 				$result = $_SESSION["sum_incomes"] - $_SESSION["sum_expenses"];
 				
 				$balance_string = '<div class="w-50 m-auto mb-4">
@@ -204,7 +294,9 @@
     <link href="style.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&display=swap" rel="stylesheet">
     <link href="css/fontello.css" rel="stylesheet" />
+	
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+	
 </head>
 <body>
     <header>
@@ -232,7 +324,7 @@
 					<div class="col-md-4 offset-sm-1 m-auto">
 						<form method="post">
 							<label for="periodOfTime">Wybierz okres czasu</label>
-							<select class="form-control" name="periodOfTime">
+							<select class="form-control text-center" name="periodOfTime">
 								<option value="currentMonth" <?php if(isset($_POST['submit'])) if ($_POST['periodOfTime'] == 'currentMonth') echo "selected"; ?>>Bieżący miesiąc</option>
 								<option value="previousMonth" <?php if(isset($_POST['submit'])) if ($_POST['periodOfTime'] == 'previousMonth') echo "selected"; ?>>Poprzedni miesiąc</option>
 								<option value="currentYear" <?php if(isset($_POST['submit'])) if ($_POST['periodOfTime'] == 'currentYear') echo "selected"; ?>>Biężący rok</option>
@@ -248,7 +340,7 @@
 							if(isset($_POST['submit'])) {
 								if ($_POST['periodOfTime'] == 'selectedPeriod') {
 									$formSelectedPeriod = '<form method="post">
-										<div class="my-md-2"><label for="dateID2">Od</label><input type="date" id="dateID2" name="startDate" class="form-control-white"';
+										<div class="my-md-2"><label for="dateStartForm">Od</label><input type="date" id="dateStartForm" name="startDate" class="form-control-white"';
 									if(isset($_POST['startDate'])) {
 										$formSelectedPeriod .= 'value="'.$_POST['startDate'].'"';
 									} 
@@ -257,7 +349,7 @@
 										$formSelectedPeriod .= '<div class="text-danger">'.$_SESSION['fb_err_dataStart'].'</div>';
 										unset($_SESSION['fb_err_dataStart']);
 									}							
-									$formSelectedPeriod .='<div class="my-md-2"><label for="dateID3">do</label><input type="date" id="dateID3" name="endDate" class="form-control-white"';
+									$formSelectedPeriod .='<div class="my-md-2"><label for="dateEndForm">do</label><input type="date" id="dateEndForm" name="endDate" class="form-control-white"';
 									if(isset($_POST['endDate'])) {
 										$formSelectedPeriod .= 'value="'.$_POST['endDate'].'"';
 									} 
@@ -280,12 +372,14 @@
 							echo $_SESSION['incomes'];
 							echo $_SESSION['expenses'];
 							echo $_SESSION['balance'];
+							if (isset($_SESSION['incomesStatement'])) echo $_SESSION['incomesStatement'];
+							if (isset($_SESSION['expensesStatement']))echo $_SESSION['expensesStatement'];
 						}
 					?>
-						<script type="text/javascript">
+						<!--<script type="text/javascript">
 							google.charts.load('current', {'packages':['corechart']});
 							google.charts.setOnLoadCallback(drawChart);
-
+							
 							function drawChart() {
 
 								var data = google.visualization.arrayToDataTable([
@@ -296,14 +390,16 @@
 								]);
 
 								var options = {
-								  title: 'My expenses [zł]'
+									title: 'My expenses [zł]',
+									width: '100%',
+									height: '100%'
 								};
 
 								var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
 
 								chart.draw(data, options);
 							}
-
+							
 							$(window).on("throttledresize", function (event) {
 								var options = {
 									width: '100%',
@@ -313,7 +409,8 @@
 								var data = google.visualization.arrayToDataTable([]);
 								drawChart(data, options);
 							});
-						</script>
+							
+						</script>-->
 						<?php 
 							if (isset($_SESSION['expenses_vis_string'])) {
 								echo '<div id="chart_wrap" class="border border-dark"><div id="chart_div"></div></div>';
@@ -332,8 +429,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
     <script src="throttledresize.js"></script>
-    <script src="script.js"></script>
-	
+    <script src="script.php"></script>
 
 </body>
 </html>

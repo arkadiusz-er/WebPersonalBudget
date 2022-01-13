@@ -68,6 +68,11 @@
 						$expense_id = $row_expense_id['id'];
 						$payment_method_id = $row_payment_method_id['id'];
 						$connection->query("INSERT INTO expenses VALUES (NULL,'$user_id','$expense_id','$payment_method_id','$amount','$date','$expense_comm')");
+						echo "<script type='text/javascript'>alert('Wydatek został dodany!');</script>";
+						unset($_SESSION['fp_amount']);
+						unset($_SESSION['fp_date']);
+						unset($_SESSION['fp_pay_cat']);
+						unset($_SESSION['fp_exp_cat']);
 					} else {
 						echo "Brak kategorii wydatków.";
 					}
@@ -122,7 +127,7 @@
                 <section class="col-md-6 offset-md-3 mx-md-auto text-center mt-4 formularz">
                     <h2>Dodawanie wydatku</h2>
                     <form method="post" autocomplete="off">
-                        <div class="my-md-2"><label for="amount">Kwota</label><input type="number" id="amount" name="amount-expense" class="form-control-white" value="<?php
+                        <div class="my-md-2"><label for="amount">Kwota</label><input type="number" id="amount" step="0.01" name="amount-expense" class="form-control-white" value="<?php
 							if(isset($_SESSION['fp_amount'])) {
 								echo $_SESSION['fp_amount'];
 								unset($_SESSION['fp_amount']);
@@ -134,7 +139,7 @@
 									unset($_SESSION['err_exp_amount']);
 								}
 						?>
-                        <div class="my-md-2"><label for="dateID">Data</label><input type="date" id="dateID" name="date-expense" class="form-control-white" value="<?php
+                        <div class="my-md-2"><label for="dateIncExp">Data</label><input type="date" id="dateIncExp" name="date-expense" class="form-control-white" value="<?php
 							if(isset($_SESSION['fp_date'])) {
 								echo $_SESSION['fp_date'];
 								unset($_SESSION['fp_date']);

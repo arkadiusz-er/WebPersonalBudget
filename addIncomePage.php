@@ -57,6 +57,10 @@
 						$row = $income_id->fetch_assoc();
 						$income_id = $row['id'];
 						$connection->query("INSERT INTO incomes VALUES (NULL,'$user_id','$income_id','$amount','$date','$income_comm')");
+						echo "<script type='text/javascript'>alert('Przychód został dodany!');</script>";
+						unset($_SESSION['fp_amount']);
+						unset($_SESSION['fp_date']);
+						unset($_SESSION['fp_inc_cat']);
 					} else {
 						echo "Brak kategorii przychodów.";
 					}
@@ -120,7 +124,7 @@
 									unset($_SESSION['err_inc_amount']);
 								}
 						?>
-                        <div class="my-md-2"><label for="dateID">Data</label><input type="date" id="dateID" name="date-income" class="form-control-white" value="<?php
+                        <div class="my-md-2"><label for="dateIncExp">Data</label><input type="date" id="dateIncExp" name="date-income" class="form-control-white" value="<?php
 							if(isset($_SESSION['fp_date'])) {
 								echo $_SESSION['fp_date'];
 								unset($_SESSION['fp_date']);
