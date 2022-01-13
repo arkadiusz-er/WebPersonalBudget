@@ -31,6 +31,7 @@ var maxDate = year + '-' + month + '-' + day;
 $('#dateID').attr('max', maxDate);
 $('#dateID2').attr('max', maxDate);
 $('#dateID3').attr('max', maxDate);
+//$('#dateID3').attr('min', $('#dateID2').val());
 //$('#dateID').val(maxDate);
 
 

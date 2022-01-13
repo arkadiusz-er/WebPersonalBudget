@@ -23,8 +23,9 @@
 			unset($_SESSION['balance']);
 			
 			$now = date("Y-m-d");
-			$dateStart = date("Y-m-d", strtotime("first day of this month"));
-			$dateEnd = date("Y-m-d", strtotime($now));
+			$dateStart = "";
+			$dateEnd = "";
+			
 			if(isset($_POST['submit'])) {
 				if ($_POST['periodOfTime'] == 'currentMonth') {
 					$dateStart = date("Y-m-d", strtotime("first day of this month"));
@@ -35,14 +36,31 @@
 				} else if ($_POST['periodOfTime'] == 'currentYear') {
 					$dateStart = date("Y-m-d", strtotime("first day of this year"));
 					$dateEnd = date("Y-m-d", strtotime($now));
-				} else if ($_POST['periodOfTime'] == 'selectedPeriod') {
-					//$dateStart = $_POST['startDate'];
-					//$dateEnd = $_POST['endDate'];
+				}
+			}
+			
+			if (isset($_POST['submit2'])) {
+				$_POST['periodOfTime'] = 'selectedPeriod';
+				$dateStart = $_POST['startDate'];
+				$dateEnd = $_POST['endDate'];
+				$_POST['submit'] = true;
+				
+				if (!$_POST['startDate']) {
+					$_SESSION['fb_err_dataStart'] = "Proszę podać datę początkową!";
+				} 
+				if (!$_POST['endDate']) {
+					$_SESSION['fb_err_dataEnd'] = "Proszę podać datę końcową!";
 				}
 				
+				if (($dateStart) && ($dateEnd) && ($dateStart > $dateEnd)) {
+					$_SESSION['fb_err_dataEnd'] = "Data początkowa nie może być później niż data końcowa!";
+				}
+			}
+		
+			if(($dateStart) && ($dateEnd) && ($dateStart<=$dateEnd)) {
 				$_SESSION['bilansInfo'] = '<h2 class="h3 mt-3">Bilans za okres '.$dateStart.' - '.$dateEnd.'</h2>
-                        <article class="p-1">';
-				
+					<article class="p-1">';
+			
 				//Sprawdzenie, czy user ma jakieś przychody
 				$incomes = $connection->query("SELECT ica.name, SUM(i.amount) FROM users u 
 				INNER JOIN incomes i ON u.id=i.user_id 
@@ -165,9 +183,9 @@
 							</div>';
 					
 				$_SESSION['balance'] = $balance_string;
-			}	
-			$connection->close();
-		}
+			} 
+		}	
+		$connection->close();
 	} catch (Exception $err) {
 		echo '<span style="color:red;">Błąd serwera! Przepraszamy za niedogodności i prosimy o dodanie przychodu w innym terminie!</span>';
 	}
@@ -218,7 +236,10 @@
 								<option value="currentMonth" <?php if(isset($_POST['submit'])) if ($_POST['periodOfTime'] == 'currentMonth') echo "selected"; ?>>Bieżący miesiąc</option>
 								<option value="previousMonth" <?php if(isset($_POST['submit'])) if ($_POST['periodOfTime'] == 'previousMonth') echo "selected"; ?>>Poprzedni miesiąc</option>
 								<option value="currentYear" <?php if(isset($_POST['submit'])) if ($_POST['periodOfTime'] == 'currentYear') echo "selected"; ?>>Biężący rok</option>
-								<option value="selectedPeriod" <?php if(isset($_POST['submit'])) if ($_POST['periodOfTime'] == 'selectedPeriod') echo "selected"; ?>
+								<option value="selectedPeriod" <?php if(isset($_POST['submit'])) {
+									$_POST['submit'] = true;
+									if ($_POST['periodOfTime'] == 'selectedPeriod') echo "selected";
+								} ?>
 								>Wybrany okres</option>
 							</select>
 							<button type="submit" class="btn btn-success" name="submit">Wybierz</button>
@@ -226,12 +247,28 @@
 						<?php
 							if(isset($_POST['submit'])) {
 								if ($_POST['periodOfTime'] == 'selectedPeriod') {
-								echo 
-								'<form method="post">
-									<div class="my-md-2"><label for="dateID2">Data</label><input type="date" id="dateID2" name="startDate" class="form-control-white" /></div>
-									<div class="my-md-2"><label for="dateID3">Data</label><input type="date" id="dateID3" name="endDate" class="form-control-white" /></div>
-									<button type="submit" class="btn btn-success" name="submit2">Wyświetl</button>
-								</form>';
+									$formSelectedPeriod = '<form method="post">
+										<div class="my-md-2"><label for="dateID2">Od</label><input type="date" id="dateID2" name="startDate" class="form-control-white"';
+									if(isset($_POST['startDate'])) {
+										$formSelectedPeriod .= 'value="'.$_POST['startDate'].'"';
+									} 
+									$formSelectedPeriod .= '/></div>';
+									if(isset($_SESSION['fb_err_dataStart'])) {
+										$formSelectedPeriod .= '<div class="text-danger">'.$_SESSION['fb_err_dataStart'].'</div>';
+										unset($_SESSION['fb_err_dataStart']);
+									}							
+									$formSelectedPeriod .='<div class="my-md-2"><label for="dateID3">do</label><input type="date" id="dateID3" name="endDate" class="form-control-white"';
+									if(isset($_POST['endDate'])) {
+										$formSelectedPeriod .= 'value="'.$_POST['endDate'].'"';
+									} 
+									$formSelectedPeriod .= '/></div>';
+									if(isset($_SESSION['fb_err_dataEnd'])) {
+										$formSelectedPeriod .= '<div class="text-danger">'.$_SESSION['fb_err_dataEnd'].'</div>';
+										unset($_SESSION['fb_err_dataEnd']);
+									}	
+									$formSelectedPeriod .='<button type="submit" class="btn btn-success" name="submit2">Wyświetl</button>
+									</form>';
+									echo $formSelectedPeriod;
 								}
 							}
 						?>			
@@ -254,7 +291,7 @@
 								var data = google.visualization.arrayToDataTable([
 								  ['Name', 'Amount'],
 									<?php 
-										echo $_SESSION['expenses_vis_string'];
+										if (isset($_SESSION['expenses_vis_string'])) echo $_SESSION['expenses_vis_string'];
 									?>
 								]);
 
